@@ -15,31 +15,31 @@
 
 </head>
     <body>
+	    
 	<audio id="backgroundMusic" autoplay>
     <source src="music/nhac.mp3" type="audio/mp3" />
     Your browser does not support the audio element.
 </audio>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const audio = document.getElementById("backgroundMusic");
-        audio.play().catch(error => {
-            console.log("Trình duyệt chặn phát nhạc tự động:", error);
-            // Hiển thị nút để người dùng có thể tự phát nhạc
-            let playButton = document.createElement("button");
-            playButton.innerText = "Nhấn để phát nhạc";
-            playButton.style.position = "absolute";
-            playButton.style.top = "10px";
-            playButton.style.left = "10px";
-            playButton.style.zIndex = "1000";
-            document.body.appendChild(playButton);
-            playButton.addEventListener("click", function() {
-                audio.play();
-                playButton.remove(); // Xóa nút sau khi phát
+        audio.muted = false; // Đảm bảo âm thanh không bị tắt
+        audio.volume = 1.0; // Đặt âm lượng tối đa
+
+        // Cố gắng phát nhạc
+        const playMusic = () => {
+            audio.play().catch(error => {
+                console.log("Trình duyệt chặn phát nhạc tự động:", error);
+                // Lặp lại cố gắng sau vài giây
+                setTimeout(playMusic, 1000);
             });
-        });
+        };
+
+        playMusic();
     });
 </script>
+
         <div id="main">
             <div id="error">Trình duyệt của em nếu không được hỗ trợ, hãy để anh hỗ trợ cho em xem nhé hoặc em có thể sử dụng (<a href="http://www.google.cn/chrome">Chrome</a>) và (<a href="http://firefox.com/download/">Firefox</a>)</div>
              <div id="wrap">
